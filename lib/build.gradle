@@ -1,0 +1,106 @@
+plugins {
+    id 'java-library'
+    id 'org.kordamp.gradle.jandex' version '0.11.0'
+    id 'org.unbroken-dome.test-sets' version '4.0.0'
+    id 'com.diffplug.spotless' version '6.2.1'
+    id 'maven-publish'
+    id 'signing'
+}
+
+ext {
+    jupiterVersion = '5.7.2'
+    gcpPlatformVersion = '24.0.0'
+    bouncyCastleVersion = '1.68'
+    mockitoVersion = '4.2.0'
+    guavaVersion = '31.0.1-jre'
+}
+
+repositories {
+    mavenCentral()
+}
+
+testSets {
+    itest
+}
+
+spotless {
+  java {
+    eclipse()          
+    importOrder()
+    removeUnusedImports()
+    licenseHeaderFile 'misc/license-header.txt'
+    indentWithSpaces(4)
+  }
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = 'bouncycastle-gcp-kms-content-signer'
+            from components.java
+            pom {
+                name = 'BouncyCastle GCP KMS Content Signer'
+                description = 'A small utility library that provides a bouncy castle content signer on top of Goocle Cloud KMS.'
+                url = 'https://fungrim.github.io/bouncycastle-gcp-kms-content-signer/'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'fungrim'
+                        name = 'Lars J. Nilsson'
+                        email = 'fungrim+github@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/Fungrim/bouncycastle-gcp-kms-content-signer.git'
+                    developerConnection = 'scm:git:ssh://github.com/Fungrim/bouncycastle-gcp-kms-content-signer.git'
+                    url = 'http://github.com/Fungrim/bouncycastle-gcp-kms-content-signer/tree/maste'
+                }
+            }
+        }
+    }
+}
+
+signing {
+     sign publishing.publications.maven
+}
+
+dependencies {
+    // internals 
+    api "com.google.guava:guava:${guavaVersion}"
+
+    // bouncy castle
+    implementation "org.bouncycastle:bcpkix-jdk15on:${bouncyCastleVersion}"
+    
+    // gpp kms
+    implementation platform("com.google.cloud:libraries-bom:${gcpPlatformVersion}")
+    api "com.google.cloud:google-cloud-kms"
+
+    // testing
+    testImplementation "org.junit.jupiter:junit-jupiter:${jupiterVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.named('itest') {
+    useJUnitPlatform()
+}
