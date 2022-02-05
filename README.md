@@ -1,2 +1,2 @@
-# bouncycastle-gcp-kms-content-signer
-A small utility library that provides a bouncy castle content signer on top of Goocle Cloud KMS. 
+# GCP KMS CSR Generation
+A small utility library that creates CSR's where the private key is stored in GCP KMS. 
