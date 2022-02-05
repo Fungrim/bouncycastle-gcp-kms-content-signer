@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.fungrim.bouncycastle.kms.client;
+package io.github.fungrim.kms.csr.client;
 
 
 import com.google.cloud.kms.v1.CryptoKeyVersion;

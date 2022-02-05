@@ -48,12 +48,12 @@ java {
 publishing {
     publications {
         maven(MavenPublication) {
-            artifactId = 'bouncycastle-gcp-kms-content-signer'
+            artifactId = 'gcp-kms-csr-generator'
             from components.java
             pom {
                 name = 'BouncyCastle GCP KMS Content Signer'
-                description = 'A small utility library that provides a bouncy castle content signer on top of Goocle Cloud KMS.'
-                url = 'https://fungrim.github.io/bouncycastle-gcp-kms-content-signer/'
+                description = 'A small utility library that creates CSR where the private key is stored in GCP KMS.'
+                url = 'https://fungrim.github.io/gcp-kms-csr-generator/'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -68,9 +68,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/Fungrim/bouncycastle-gcp-kms-content-signer.git'
-                    developerConnection = 'scm:git:ssh://github.com/Fungrim/bouncycastle-gcp-kms-content-signer.git'
-                    url = 'http://github.com/Fungrim/bouncycastle-gcp-kms-content-signer/tree/maste'
+                    connection = 'scm:git:git://github.com/Fungrim/gcp-kms-csr-generator.git'
+                    developerConnection = 'scm:git:ssh://github.com/Fungrim/gcp-kms-csr-generator.git'
+                    url = 'http://github.com/Fungrim/gcp-kms-csr-generator/tree/master'
                 }
             }
         }
